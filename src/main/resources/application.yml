@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: job-finder-main-api
+netty:
+  default:
+    allocator:
+      max-order: 3
+aws:
+  key: AKIA5PKNZPRICUXJHB5Q
+  secret: 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
