@@ -1,8 +1,9 @@
 package com.caminha.service
 
-import com.caminha.entity.Job
+import com.caminha.entity.JobEntity
+
 
 interface JobFinderService {
-    fun getJobs(): List<Job>
-    fun validateJobs(jobs: List<Job>): List<Job>
+    fun getJobs(): String
+    fun validateJobs(jobs: List<JobEntity>): List<JobEntity>
 }

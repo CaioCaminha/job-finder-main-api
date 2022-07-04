@@ -1,26 +1,34 @@
 package com.caminha.controller
 
 import com.caminha.constants.Response
-import com.caminha.service.JobFinderService
+import com.caminha.dynamoDb.DynamoDBService
+import com.caminha.service.impl.JobFinderServiceImpl
 import com.caminha.sqs.SqsConsumer
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import jakarta.inject.Inject
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse
 
 @Controller(value = "/v1/jobs" )
 class JobFinderController(
-    val service: JobFinderService
+    val service: JobFinderServiceImpl
 ) {
+
+    @Inject
+    lateinit var dynamoDBService: DynamoDBService
 
     @Inject
     lateinit var sqsConsumer: SqsConsumer
 
     @Get(value="/",produces = arrayOf(MediaType.APPLICATION_JSON))
     fun getJob(): Response {
+
         return try {
-            Response(status = HttpStatus.OK.code, body = "", error = ArrayList<String>())
+            val body = service.getJobs()
+            Response(status = HttpStatus.OK.code, body = "body", error = ArrayList<String>())
         }catch (ex: java.lang.Exception){
             val error = ArrayList<String>()
             //especie de if ternário nativo do kotlin

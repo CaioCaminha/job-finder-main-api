@@ -6,10 +6,9 @@ import io.micronaut.context.annotation.Value
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
-import software.amazon.awssdk.services.sqs.SqsClient
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 
-class SqsClientFactory {
-
+class DynamoDBClientFactory {
     @Value("\${aws.key}")
     lateinit var awsKeyId: String
     @Value("\${aws.secret}")
@@ -17,9 +16,9 @@ class SqsClientFactory {
 
     @Bean
     @Primary
-    open fun sqsClient(): SqsClient {
+    open fun dynamoDbClient(): DynamoDbClient{
         var credentials: AwsBasicCredentials = AwsBasicCredentials.create(awsKeyId, awsSecret)
-        return SqsClient.builder().region(Region.US_EAST_1)
+        return DynamoDbClient.builder().region(Region.US_EAST_1)
             .credentialsProvider(StaticCredentialsProvider.create(credentials)).build()
     }
 }
